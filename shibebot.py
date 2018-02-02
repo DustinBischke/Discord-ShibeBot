@@ -25,19 +25,23 @@ async def on_message(message):
         # Removes Prefix and White Space from Command at Start and End
         msg = message.content[len(config.prefix):].lower().strip()
 
-        for command in commands.cmds:
-            if command.enabled and msg.startswith(command.alias):
-                if command.sendsFile:
-                    await client.send_file(message.channel, command.run())
-                else:
-                    if command.acceptsInput:
-                        await client.send_message(message.channel, command.run(msg))
+        # If Maintenance Mode is Enabled, only Bot Author can Execute Commands
+        if config.maintenance and message.author.id != config.author_id:
+            await client.send_message(message.channel, 'Maintenance Mode Enabled. Sorry for the Inconvenience!')
+        else:
+            for command in commands.cmds:
+                if command.enabled and msg.startswith(command.alias):
+                    if command.sendsFile:
+                        await client.send_file(message.channel, command.run())
                     else:
-                        await client.send_message(message.channel, command.run())
-                return
+                        if command.acceptsInput:
+                            await client.send_message(message.channel, command.run(msg))
+                        else:
+                            await client.send_message(message.channel, command.run())
+                    return
 
-        # If Command not found in list, run InvalidCommand
-        await client.send_message(message.channel, commands.invalid())
+            # If Command not found in list, run InvalidCommand
+            await client.send_message(message.channel, commands.invalid())
 
 
 client.run(config.token)
