@@ -11,3 +11,7 @@ def bold(text):
 # Returns Text in Bold and Italic
 def bolditalic(text):
     return '***' + text + '***'
+
+
+def seperator():
+    return bold('-' * 40) + '\n'

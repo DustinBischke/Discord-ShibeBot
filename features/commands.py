@@ -68,7 +68,7 @@ class Stats(Command):
             serverStr += 's'
         msg = textformat.bold(functions.getBotName()) + ' is connected to ' + textformat.bold(str(functions.getServerCount()) + serverStr) + '\n'
         msg += 'Serving a Total of ' + textformat.bold(str(functions.getTotalUserCount()) + ' Users') + '\n'
-        msg += textformat.bold('----------------------------------------') + '\n'
+        msg += textformat.seperator()
         msg += functions.getServerList()
         return msg
 
@@ -79,6 +79,7 @@ cmds = [Help(True), Eightball(True), Bork(True), Shibe(True), Stats(True)]
 
 def runHelp():
     msg = textformat.bold(functions.getBotName() + ' Developed by ' + config.devname) + '\n' + 'Prefix: ' + textformat.bold(config.prefix) + '\n'
+    msg += textformat.seperator()
     for cmd in cmds:
         if (cmd.enabled):
             msg += cmd.help()
