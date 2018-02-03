@@ -62,3 +62,11 @@ def getServerList():
             if (server != connectedServers[-1]):
                 serverStr += ', '
     return serverStr
+
+
+# Returns Total Amount of Users in All Servers Connected To
+def getTotalUserCount():
+    count = 0;
+    for server in list(client.servers):
+        count += len(server.members)
+    return count;

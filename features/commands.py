@@ -66,13 +66,15 @@ class Stats(Command):
         serverStr = ' Server'
         if functions.getServerCount() != 1:
             serverStr += 's'
-        msg = textformat.bold(functions.getBotName()) + ' is connected to ' + textformat.bold(str(functions.getServerCount()) + serverStr + ':') + '\n'
+        msg = textformat.bold(functions.getBotName()) + ' is connected to ' + textformat.bold(str(functions.getServerCount()) + serverStr) + '\n'
+        msg += 'Serving a Total of ' + textformat.bold(str(functions.getTotalUserCount()) + ' Users') + '\n'
+        msg += textformat.bold('----------------------------------------') + '\n'
         msg += functions.getServerList()
         return msg
 
 
 # Instances of Command Class
-cmds = [Help(True), Bork(True), Eightball(True), Shibe(True), Stats(True)]
+cmds = [Help(True), Eightball(True), Bork(True), Shibe(True), Stats(True)]
 
 
 def runHelp():
