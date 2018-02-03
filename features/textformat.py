@@ -13,5 +13,6 @@ def bolditalic(text):
     return '***' + text + '***'
 
 
+# Returns a Seperator Line
 def seperator():
     return bold('-' * 40) + '\n'
