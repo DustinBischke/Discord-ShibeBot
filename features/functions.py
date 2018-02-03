@@ -1,5 +1,28 @@
+import asyncio
+import discord
 import os
 import random
+from settings import *
+
+client = discord.Client()
+
+
+# Returns the Bot Developer Name
+#async def getBotDeveloper():
+#    devUser = await client.get_user_info(config.devid)
+#    dev = devUser.name# + '#' + devUser.discriminator
+#    return dev
+
+
+# Returns the Bot Name
+def getBotName():
+    return client.user.name
+
+
+# Returns the Bot ID
+def getBotID():
+    return client.user.id
+
 
 # Strips the Alias and WhiteSpace, and Returns True if new Length > 0
 def checkMessageNotEmpty(message, aliases):
@@ -23,13 +46,19 @@ def getRandomImage(directory):
     return image
 
 
+# Returns Number of Servers Connected
+def getServerCount():
+    return len(client.servers)
+
+
 # Loads the Connected Server List from File as a String
-def getServerList(client):
-    serverStr = '[' + str(len(client.servers)) + '] '
-    if len(client.servers) > 0:
+def getServerList():
+    serverStr = ''
+    if getServerCount() > 0:
         connectedServers = list(client.servers)
         for server in connectedServers:
-            serverStr += server.name + ' (' + server.id + ')'
+            serverStr += server.name
+            # serverStr += ' (' + server.id + ')'
             if (server != connectedServers[-1]):
                 serverStr += ', '
     return serverStr

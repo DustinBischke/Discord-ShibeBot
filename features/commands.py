@@ -2,7 +2,6 @@ import random
 from features import functions, textformat
 from settings import *
 
-
 class Command:
     def __init__(self, name, desc, alias, acceptsInput, sendsFile, enabled):
         self.name = name
@@ -59,12 +58,25 @@ class Shibe(Command):
         return functions.getRandomImage('shibes')
 
 
+class Stats(Command):
+    def __init__(self, enabled):
+        Command.__init__(self, 'Stats', 'Displays Connected Server Information', ('stats', 'servers'), False, False, enabled)
+
+    def run(self):
+        serverStr = ' Server'
+        if functions.getServerCount() != 1:
+            serverStr += 's'
+        msg = textformat.bold(functions.getBotName()) + ' is connected to ' + textformat.bold(str(functions.getServerCount()) + serverStr + ':') + '\n'
+        msg += functions.getServerList()
+        return msg
+
+
 # Instances of Command Class
-cmds = [Help(True), Bork(True), Eightball(True), Shibe(True)]
+cmds = [Help(True), Bork(True), Eightball(True), Shibe(True), Stats(True)]
 
 
 def runHelp():
-    msg = textformat.bold('ShibeBot Developed by Silver#4636') + '\n' + 'Prefix: ' + textformat.bold(config.prefix) + '\n'
+    msg = textformat.bold(functions.getBotName() + ' Developed by ' + config.devname) + '\n' + 'Prefix: ' + textformat.bold(config.prefix) + '\n'
     for cmd in cmds:
         if (cmd.enabled):
             msg += cmd.help()

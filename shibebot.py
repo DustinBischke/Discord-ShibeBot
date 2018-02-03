@@ -3,17 +3,17 @@ import discord
 from features import *
 from settings import *
 
-client = discord.Client()
+client = functions.client
 
 
 @client.event
 # Prints Bot Info to Console when Bot has Successfully Connected
 async def on_ready():
     print('Bot Connected.')
-    print('Username: ' + client.user.name)
-    print('Client ID: ' + client.user.id)
-    print('Connected Servers: ' + functions.getServerList(client))
-    print('Invite URL: https://discordapp.com/oauth2/authorize?&client_id=' + client.user.id + '&scope=bot&permissions=' + config.permissions)
+    print('Username: ' + functions.getBotName())
+    print('Client ID: ' + functions.getBotID())
+    print('Connected Servers (' + str(functions.getServerCount()) + '): ' + functions.getServerList())
+    print('Invite URL: https://discordapp.com/oauth2/authorize?&client_id=' + functions.getBotID() + '&scope=bot&permissions=' + config.permissions)
     await client.change_presence(game=discord.Game(name=config.game))
 
 
@@ -26,7 +26,7 @@ async def on_message(message):
         msg = message.content[len(config.prefix):].lower().strip()
 
         # If Maintenance Mode is Enabled, only Bot Author can Execute Commands
-        if config.maintenance and message.author.id != config.author_id:
+        if config.maintenance and message.author.id != config.devid:
             await client.send_message(message.channel, 'Maintenance Mode Enabled. Sorry for the Inconvenience!')
         else:
             for command in commands.cmds:
