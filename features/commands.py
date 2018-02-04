@@ -97,8 +97,20 @@ class Stats(Command):
         return msg
 
 
+class Youtube(Command):
+    def __init__(self, enabled):
+        Command.__init__(self, 'Youtube', 'Searches for Youtube Videos', ('youtube', 'yt'), True, False, enabled)
+
+    def run(self, msg):
+        if functions.check_message_not_empty(msg, self.alias):
+            msg = functions.prune_alias(msg, self.alias)
+            return functions.search_youtube(msg)
+        else:
+            return 'You must Enter a Search Query'
+
+
 # Instances of Command Class
-cmds = [Help(True), Eightball(True), Bork(True), FlipCoin(True), Roll(True), Shibe(True), Stats(True)]
+cmds = [Help(True), Eightball(True), Bork(True), FlipCoin(True), Roll(True), Shibe(True), Stats(True), Youtube(True)]
 
 
 def runHelp():
