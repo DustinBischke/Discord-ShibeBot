@@ -6,12 +6,11 @@ client = functions.client
 
 
 class Command:
-    def __init__(self, name, desc, alias, args, acceptsInput, sendsFile, enabled):
+    def __init__(self, name, desc, alias, args, sendsFile, enabled):
         self.name = name
         self.desc = desc
         self.alias = alias
         self.args = args
-        self.acceptsInput = acceptsInput
         self.sendsFile = sendsFile
         self.enabled = enabled
 
@@ -37,13 +36,13 @@ class Command:
         command_alias = 'Aliases: ' + str(self.alias)
         return command_name + '\n' + command_usage + '\n' + command_desc + '\n' + command_alias + '\n'
 
-    def run(self):
+    def run(self, message):
         return
 
 
 class Help(Command):
     def __init__(self, enabled):
-        Command.__init__(self, 'Help', 'Displays Bot Information', ('help', 'about', 'commands'), 'Command', True, False, enabled)
+        Command.__init__(self, 'Help', 'Displays Bot Information', ('help', 'about', 'commands'), 'Command', False, enabled)
 
     def run(self, message):
         if not message.content:
@@ -59,23 +58,23 @@ class Help(Command):
 
 class Bork(Command):
     def __init__(self, enabled):
-        Command.__init__(self, 'Bork', 'Does a Heckin Bork', ('bork', 'woof', 'speak'), '', False, False, enabled)
+        Command.__init__(self, 'Bork', 'Does a Heckin Bork', ('bork', 'woof', 'speak'), '', False, enabled)
 
-    def run(self):
+    def run(self, message):
         return textformat.bold('BORK ' * random.randint(1, 200))
 
 
 class CoinFlip(Command):
     def __init__(self, enabled):
-        Command.__init__(self, 'CoinFlip', 'Flips a Coin Revealing Heads or Tails', ('coinflip', 'flipcoin', 'headsortails'), (''), False, False, enabled)
+        Command.__init__(self, 'CoinFlip', 'Flips a Coin Revealing Heads or Tails', ('coinflip', 'flipcoin', 'headsortails'), (''), False, enabled)
 
-    def run(self):
+    def run(self, message):
         return random.choice(['Heads', 'Tails'])
 
 
 class Eightball(Command):
     def __init__(self, enabled):
-        Command.__init__(self, '8ball', 'Answers Yes/No Questions', ('8ball', 'ask', 'yesorno'), 'Question', True, False, enabled)
+        Command.__init__(self, '8ball', 'Answers Yes/No Questions', ('8ball', 'ask', 'yesorno'), 'Question', False, enabled)
 
     def run(self, message):
         if message.content:
@@ -87,7 +86,7 @@ class Eightball(Command):
 
 class Roll(Command):
     def __init__(self, enabled):
-        Command.__init__(self, 'Roll', 'Rolls a Random Number', ('roll', 'randomnumber'), 'Max', True, False, enabled)
+        Command.__init__(self, 'Roll', 'Rolls a Random Number', ('roll', 'randomnumber'), 'Max', False, enabled)
 
     def run(self, message):
         if message.content:
@@ -101,17 +100,17 @@ class Roll(Command):
 
 class Shibe(Command):
     def __init__(self, enabled):
-        Command.__init__(self, 'Shibe', 'Sends a Cute Shibe Picture', ('shibe', 'doggo', 'pic'), '', False, True, enabled)
+        Command.__init__(self, 'Shibe', 'Sends a Cute Shibe Picture', ('shibe', 'doggo', 'pic'), '', True, enabled)
 
-    def run(self):
+    def run(self, message):
         return functions.get_random_picture('shibes')
 
 
 class Stats(Command):
     def __init__(self, enabled):
-        Command.__init__(self, 'Stats', 'Displays Connected Server Information', ('stats', 'servers'), '', False, False, enabled)
+        Command.__init__(self, 'Stats', 'Displays Connected Server Information', ('stats', 'servers'), '', False, enabled)
 
-    def run(self):
+    def run(self, message):
         serverStr = ' Server'
         if functions.get_server_count() != 1:
             serverStr += 's'
@@ -124,7 +123,7 @@ class Stats(Command):
 
 class Youtube(Command):
     def __init__(self, enabled):
-        Command.__init__(self, 'Youtube', 'Searches for Youtube Videos', ('youtube', 'yt'), 'Search', True, False, enabled)
+        Command.__init__(self, 'Youtube', 'Searches for Youtube Videos', ('youtube', 'yt'), 'Search', False, enabled)
 
     def run(self, message):
         if message.content:
@@ -134,7 +133,7 @@ class Youtube(Command):
 
 
 # Instances of Command Class
-cmds = [Help(True), Eightball(True), Bork(True), CoinFlip(False), Roll(True), Shibe(True), Stats(True), Youtube(True)]
+cmds = [Help(True), Eightball(True), Bork(False), CoinFlip(True), Roll(True), Shibe(True), Stats(True), Youtube(True)]
 
 
 def help_all():

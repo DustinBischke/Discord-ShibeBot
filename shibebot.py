@@ -42,14 +42,11 @@ async def on_message(message):
                         # Removes Alias from Command Content
                         message.content = functions.prune_alias(message.content, command.alias)
                         # TODO: Remove This Section, make everything run from await command.run()
-                        #       Allowing removal of sendsFile and acceptsInput from Commands
+                        #       Allowing removal of sendsFile check from Commands
                         if command.sendsFile:
                             await client.send_file(message.channel, command.run())
                         else:
-                            if command.acceptsInput:
-                                await client.send_message(message.channel, command.run(message))
-                            else:
-                                await client.send_message(message.channel, command.run())
+                            await client.send_message(message.channel, command.run(message))
                     # If Command not Enabled, inform the User
                     else:
                         await client.send_message(message.channel, command.name + ' Command has been Disabled')
