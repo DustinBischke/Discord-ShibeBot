@@ -3,8 +3,9 @@ import discord
 import os
 import random
 import re
-import urllib.request
 import urllib.parse
+import urllib.request
+from features import commands
 from settings import *
 
 client = discord.Client()
@@ -46,8 +47,7 @@ def get_server_list():
         connectedServers = list(client.servers)
         for server in connectedServers:
             serverStr += server.name
-            # serverStr += ' (' + server.id + ')'
-            if (server != connectedServers[-1]):
+            if server != connectedServers[-1]:
                 serverStr += ', '
     return serverStr
 
@@ -60,23 +60,16 @@ def get_user_count():
     return count
 
 
-# Strips the Alias and WhiteSpace, and Returns True if new Length > 0
-def check_message_not_empty(message, aliases):
-    for alias in aliases:
-        if message.startswith(alias):
-            if len(message[len(alias):].strip()) > 0:
-                return True
-            else:
-                return False
-
-
+# Strips the Alias and WhiteSpace
 def prune_alias(message, aliases):
     for alias in aliases:
         if message.startswith(alias):
             message = message[len(alias):].strip()
+            break
     return message
 
 
+# Returns Youtube URL for Top Result from Search Query
 def search_youtube(search):
     query_string = urllib.parse.urlencode({"search_query" : search})
     html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
