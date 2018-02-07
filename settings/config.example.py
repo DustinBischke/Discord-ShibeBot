@@ -13,6 +13,7 @@ help = True
 bork = False
 coinflip = True
 eightball = True
+members = True
 roll = True
 shibe = True
 stats = True

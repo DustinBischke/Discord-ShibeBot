@@ -7,7 +7,7 @@ client = functions.client
 
 
 @client.event
-# Prints Bot Info to Console when Bot has Successfully Connected
+# Prints Info to Console when Bot has Successfully Connected
 async def on_ready():
     print('Bot Connected.')
     print('Username: ' + functions.get_bot_name())
@@ -18,15 +18,15 @@ async def on_ready():
 
 
 @client.event
-# Reads Messages and Checks for Bot Commands
+# Reads Messages and Checks for Commands
 async def on_message(message):
-    # Checks if Message begins with Prefix as defined in config.py, and not sent by a Bot
+    # Checks if Message begins with Prefix, and not sent by a Bot
     if message.content.lower().startswith(config.prefix) and not message.author.bot:
         # Prevents Users from Executing Commands in Private Messages
         if message.channel.is_private:
             await client.send_message(message.channel, "Sorry, I can't Execute Commands in Private Messages!")
             return
-        # If Maintenance Mode is Enabled, only Bot Author can Execute Commands
+        # Allows only Bot Developer to Execute Commands if in Maintenance Mode
         elif config.maintenance and message.author.id != config.dev_id:
             await client.send_message(message.channel, config.maintenance_msg)
             return
@@ -40,9 +40,8 @@ async def on_message(message):
                     # Runs only if Command is Enabled
                     if command.enabled:
                         # Removes Alias from Command Content
-                        message.content = functions.prune_alias(message.content, command.alias)
-                        # TODO: Remove This Section, make everything run from await command.run()
-                        #       Allowing removal of sendsFile check from Commands
+                        message.content = functions.strip_alias(message.content, command.alias)
+                        # TODO: Remove This Section, Make all Commands Run with await command.run()
                         if command.sendsFile:
                             await client.send_file(message.channel, command.run())
                         else:
@@ -51,7 +50,7 @@ async def on_message(message):
                     else:
                         await client.send_message(message.channel, command.name + ' Command has been Disabled')
                     return
-            # If Command not found, run InvalidCommand
+            # Run InvalidCommand if Command not Found
             await client.send_message(message.channel, commands.invalid_command())
 
 

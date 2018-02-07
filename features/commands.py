@@ -42,7 +42,7 @@ class Command:
 
 class Help(Command):
     def __init__(self):
-        Command.__init__(self, 'Help', 'Displays Bot Information', ('help', 'about', 'commands'), 'Command', False, config.help)
+        Command.__init__(self, 'Help', 'Shows Bot Information and Commands', ('help', 'about', 'commands'), 'Command', False, config.help)
 
     def run(self, message):
         if not message.content:
@@ -84,6 +84,15 @@ class Eightball(Command):
             return 'You must enter a Yes/No Question'
 
 
+class Members(Command):
+    def __init__(self):
+        Command.__init__(self, 'Members', 'Shows Member Count of Server', ('members', 'users'), '', False, config.members)
+
+    def run(self, message):
+        msg = message.server.name + ' has ' + textformat.bold(str(functions.get_user_count(message.server))) + ' Members'
+        return msg
+
+
 class Roll(Command):
     def __init__(self):
         Command.__init__(self, 'Roll', 'Rolls a Random Number', ('roll', 'randomnumber'), 'Max', False, config.roll)
@@ -108,14 +117,14 @@ class Shibe(Command):
 
 class Stats(Command):
     def __init__(self):
-        Command.__init__(self, 'Stats', 'Displays Connected Server Information', ('stats', 'servers'), '', False, config.stats)
+        Command.__init__(self, 'Stats', 'Shows Connected Server Information', ('stats', 'servers'), '', False, config.stats)
 
     def run(self, message):
         serverStr = ' Server'
         if functions.get_server_count() != 1:
             serverStr += 's'
         stats_message = textformat.bold(functions.get_bot_name()) + ' is connected to ' + textformat.bold(str(functions.get_server_count()) + serverStr) + '\n'
-        stats_message += 'Serving a Total of ' + textformat.bold(str(functions.get_user_count()) + ' Users') + '\n'
+        stats_message += 'Serving a Total of ' + textformat.bold(str(functions.get_total_user_count()) + ' Users') + '\n'
         stats_message += textformat.seperator()
         stats_message += functions.get_server_list()
         return stats_message
@@ -123,7 +132,7 @@ class Stats(Command):
 
 class Youtube(Command):
     def __init__(self):
-        Command.__init__(self, 'Youtube', 'Searches for Youtube Videos', ('youtube', 'yt'), 'Search', False, config.youtube)
+        Command.__init__(self, 'Youtube', 'Searches Youtube for Videos', ('youtube', 'yt'), 'Search', False, config.youtube)
 
     def run(self, message):
         if message.content:
@@ -133,7 +142,7 @@ class Youtube(Command):
 
 
 # Instances of Command Class
-cmds = [Help(), Eightball(), Bork(), CoinFlip(), Roll(), Shibe(), Stats(), Youtube()]
+cmds = [Help(), Eightball(), Bork(), CoinFlip(), Members(), Roll(), Shibe(), Stats(), Youtube()]
 
 
 def help_all():
@@ -145,5 +154,6 @@ def help_all():
     return msg
 
 
+# Returns Message if Invalid Command Entered
 def invalid_command():
     return 'Invalid Command! For a list of Commands type ' + textformat.bold(config.prefix + ' help')

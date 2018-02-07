@@ -11,7 +11,7 @@ from settings import *
 client = discord.Client()
 
 
-# Returns the Bot Developer Name - Function must be Awaited when running
+# Returns the Bot Developer Name
 async def get_bot_dev():
     dev_user = await client.get_user_info(config.dev_id)
     dev = dev_user.name + '#' + dev_user.discriminator
@@ -28,40 +28,46 @@ def get_bot_id():
     return client.user.id
 
 
-# Returns Directory of Random Picture from Specified Directory Within /resources/
+# Returns File Name of Random Picture from Specified Directory Within /resources/
 def get_random_picture(directory):
     directory = 'resources/' + directory + '/'
     image = directory + random.choice(os.listdir(directory))
     return image
 
 
-# Returns Number of Servers Connected
+# Returns Number of Servers the Bot is Connected to
 def get_server_count():
     return len(client.servers)
 
 
-# Loads the Connected Server List from File as a String
+# Returns the Connected Server List as a String
 def get_server_list():
-    serverStr = ''
     if get_server_count() > 0:
+        serverStr = ''
         connectedServers = list(client.servers)
         for server in connectedServers:
-            serverStr += server.name
+            serverStr += server.name + ' (' + str(server.member_count) + ')'
             if server != connectedServers[-1]:
                 serverStr += ', '
-    return serverStr
+        return serverStr
+    return 'None'
 
 
-# Returns Total Amount of Users in All Servers Connected To
-def get_user_count():
+# Returns Amount of Users in Specific Server
+def get_user_count(server):
+    return server.member_count
+
+
+# Returns Total Users in All Servers the Bot is Connected to
+def get_total_user_count():
     count = 0
     for server in list(client.servers):
-        count += len(server.members)
+        count += server.member_count
     return count
 
 
-# Strips the Alias and WhiteSpace
-def prune_alias(message, aliases):
+# Strips Command Alias and WhiteSpace from Front and Back of Message
+def strip_alias(message, aliases):
     for alias in aliases:
         if message.startswith(alias):
             message = message[len(alias):].strip()
@@ -69,7 +75,7 @@ def prune_alias(message, aliases):
     return message
 
 
-# Returns Youtube URL for Top Result from Search Query
+# Returns Youtube URL of Top Result from Search Query
 def search_youtube(search):
     query_string = urllib.parse.urlencode({"search_query" : search})
     html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
