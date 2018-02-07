@@ -44,7 +44,7 @@ def get_server_count():
 def get_server_list():
     if get_server_count() > 0:
         serverStr = ''
-        connectedServers = list(client.servers)
+        connectedServers = sorted(list(client.servers), key=lambda server: server.member_count, reverse=True)
         for server in connectedServers:
             serverStr += server.name + ' (' + str(server.member_count) + ')'
             if server != connectedServers[-1]:
