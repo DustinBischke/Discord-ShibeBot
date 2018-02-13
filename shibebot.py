@@ -21,7 +21,7 @@ async def on_ready():
 # Reads Messages and Checks for Commands
 async def on_message(message):
     # Checks if Message begins with Prefix, and not sent by a Bot
-    if message.content.lower().startswith(config.prefix) and not message.author.bot:
+    if message.content.lower().startswith(config.prefix.lower()) and not message.author.bot:
         # Prevents Users from Executing Commands in Private Messages
         if message.channel.is_private:
             await client.send_message(message.channel, "Sorry, I can't Execute Commands in Private Messages!")
@@ -36,11 +36,11 @@ async def on_message(message):
             # Checks if Command Exists in Commands List
             for command in commands.cmds:
                 # Checks all Aliases Defined for Each Command
-                if message.content.startswith(command.alias):
+                if message.content.startswith(command.aliases):
                     # Runs only if Command is Enabled
                     if command.enabled:
                         # Removes Alias from Command Content
-                        message.content = functions.strip_alias(message.content, command.alias)
+                        message.content = functions.strip_alias(message.content, command.aliases)
                         # TODO: Remove This Section, Make all Commands Run with await command.run()
                         if command.sendsFile:
                             await client.send_file(message.channel, command.run())

@@ -6,16 +6,16 @@ client = functions.client
 
 
 class Command:
-    def __init__(self, name, desc, alias, args, sendsFile, enabled):
+    def __init__(self, name, desc, aliases, args, sendsFile, enabled):
         self.name = name
         self.desc = desc
-        self.alias = alias
+        self.aliases = aliases
         self.args = args
         self.sendsFile = sendsFile
         self.enabled = enabled
 
     def help_short(self):
-        return textformat.bold(self.name) + ' - ' + self.desc + '\n'
+        return textformat.bold(self.name) + ' - ' + self.desc
 
     def help_long(self):
         command_name = textformat.bold(self.name + ' Help:')
@@ -33,8 +33,8 @@ class Command:
                     command_args += ' '
         command_usage = 'Usage: ' + config.prefix + ' ' + self.name.lower() + ' ' + command_args
         command_desc = 'Description: ' + self.desc
-        command_alias = 'Aliases: ' + str(self.alias)
-        return command_name + '\n' + command_usage + '\n' + command_desc + '\n' + command_alias + '\n'
+        command_aliases = 'Aliases: ' + str(self.aliases)
+        return command_name + '\n' + command_usage + '\n' + command_desc + '\n' + command_aliases
 
     def run(self, message):
         return
@@ -50,7 +50,7 @@ class Help(Command):
         else:
             for command in cmds:
                 # If Command Exists, Print Longer Help
-                if message.content.startswith(command.alias):
+                if message.content.startswith(command.aliases):
                     return command.help_long()
             # If Command doesn't Exist
             return invalid_command()
@@ -66,7 +66,7 @@ class Bork(Command):
 
 class CoinFlip(Command):
     def __init__(self):
-        Command.__init__(self, 'CoinFlip', 'Flips a Coin Revealing Heads or Tails', ('coinflip', 'flipcoin', 'headsortails'), (''), False, config.coinflip)
+        Command.__init__(self, 'CoinFlip', 'Flips a Coin Revealing Heads or Tails', ('coinflip', 'flipcoin', 'headsortails'), '', False, config.coinflip)
 
     def run(self, message):
         return random.choice(['Heads', 'Tails'])
@@ -82,6 +82,17 @@ class Eightball(Command):
             return random.choice(answers)
         else:
             return 'You must enter a Yes/No Question'
+
+
+class Giphy(Command):
+    def __init__(self):
+        Command.__init__(self, 'Giphy', 'Searches Giphy for Reaction Gifs', ('giphy', 'gif'), 'Search', False, config.giphy)
+
+    def run(self, message):
+        if message.content:
+            return functions.search_giphy(message.content)
+        else:
+            return 'You must Enter a Search Query'
 
 
 class Members(Command):
@@ -142,7 +153,7 @@ class Youtube(Command):
 
 
 # Instances of Command Class
-cmds = [Help(), Eightball(), Bork(), CoinFlip(), Members(), Roll(), Shibe(), Stats(), Youtube()]
+cmds = [Help(), Eightball(), Bork(), CoinFlip(), Giphy(), Members(), Roll(), Shibe(), Stats(), Youtube()]
 
 
 def help_all():
@@ -150,7 +161,7 @@ def help_all():
     msg += textformat.seperator()
     for command in cmds:
         if (command.enabled):
-            msg += command.help_short()
+            msg += command.help_short() + '\n'
     return msg
 
 

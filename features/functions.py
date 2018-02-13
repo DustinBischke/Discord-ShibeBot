@@ -1,5 +1,6 @@
 import asyncio
 import discord
+import giphy_client
 import os
 import random
 import re
@@ -11,7 +12,7 @@ from settings import *
 client = discord.Client()
 
 
-# Returns the Bot Developer Name
+# Returns the Bot Developer Name and Discriminator
 async def get_bot_dev():
     dev_user = await client.get_user_info(config.dev_id)
     dev = dev_user.name + '#' + dev_user.discriminator
@@ -53,7 +54,7 @@ def get_server_list():
     return 'None'
 
 
-# Returns Amount of Users in Specific Server
+# Returns Number of Users in Specific Server
 def get_user_count(server):
     return server.member_count
 
@@ -75,9 +76,16 @@ def strip_alias(message, aliases):
     return message
 
 
+# Returns Giphy URL of Random GIF Result from Search Query
+def search_giphy(search):
+    api_instance = giphy_client.DefaultApi()
+    api_response = api_instance.gifs_random_get(config.giphy_api, tag=search, rating=config.giphy_rating)
+    return api_response.data.url
+
+
 # Returns Youtube URL of Top Result from Search Query
 def search_youtube(search):
-    query_string = urllib.parse.urlencode({"search_query" : search})
-    html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
+    query_string = urllib.parse.urlencode({'search_query' : search})
+    html_content = urllib.request.urlopen('http://www.youtube.com/results?' + query_string)
     search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
     return 'http://www.youtube.com/watch?v=' + search_results[0]
