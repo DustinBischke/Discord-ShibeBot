@@ -30,7 +30,7 @@ class Command:
             for arg in self.args:
                 command_args += '<' + arg.lower() + '>'
                 if arg != self.args[-1]:
-                    command_args += ' '
+                    command_args += ', '
         command_usage = 'Usage: ' + config.prefix + ' ' + self.name.lower() + ' ' + command_args
         command_desc = 'Description: ' + self.desc
         command_aliases = 'Aliases: ' + str(self.aliases)
@@ -84,6 +84,16 @@ class Eightball(Command):
             return 'You must enter a Yes/No Question'
 
 
+class FuckMarryKill(Command):
+    def __init__(self):
+        Command.__init__(self, 'FuckMarryKill', 'Tells who to Fuck, Marry, and Kill', ('fuckmarrykill', 'fmk'), ('P1', 'P2', 'P3'), False, config.fuckmarrykill)
+
+    def run(self, message):
+        words = message.content.split(',')
+        random.shuffle(words)
+        return textformat.bold('Fuck: ') + words[0].strip() + textformat.bold(' Marry: ') + words[1].strip() + textformat.bold(' Kill: ') + words[2].strip()
+
+
 class Giphy(Command):
     def __init__(self):
         Command.__init__(self, 'Giphy', 'Searches Giphy for Reaction Gifs', ('giphy', 'gif'), 'Search', False, config.giphy)
@@ -93,6 +103,15 @@ class Giphy(Command):
             return functions.search_giphy(message.content)
         else:
             return 'You must Enter a Search Query'
+
+
+class LoveCalc(Command):
+    def __init__(self):
+        Command.__init__(self, 'LoveCalc', 'Calculates Love between 2 Users', ('lovecalc', 'love'), ('User1', 'User2'), False, config.lovecalc)
+
+    def run(self, message):
+        users = message.content.split(',')
+        return textformat.bold(str(random.randint(0, 100)) + '%') + ' Love Between: ' + users[0].strip() + ' and ' + users[1].strip() + ' :sparkling_heart:'
 
 
 class Members(Command):
@@ -153,7 +172,7 @@ class Youtube(Command):
 
 
 # Instances of Command Class
-cmds = [Help(), Eightball(), Bork(), CoinFlip(), Giphy(), Members(), Roll(), Shibe(), Stats(), Youtube()]
+cmds = [Help(), Eightball(), Bork(), CoinFlip(), FuckMarryKill(), Giphy(), LoveCalc(), Members(), Roll(), Shibe(), Stats(), Youtube()]
 
 
 def help_all():
