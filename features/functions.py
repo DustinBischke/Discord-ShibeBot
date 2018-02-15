@@ -69,15 +69,16 @@ def get_total_user_count():
 
 # Strips Command Alias and WhiteSpace from Front and Back of Message
 def strip_alias(message, aliases):
+    message_lower = message.lower()
     for alias in aliases:
-        if message.startswith(alias):
+        if message_lower.startswith(alias):
             message = message[len(alias):].strip()
             break
     return message
 
 
 # Returns Giphy URL of Random GIF Result from Search Query
-def search_giphy(search):
+def get_random_giphy(search):
     api_instance = giphy_client.DefaultApi()
     api_response = api_instance.gifs_random_get(config.giphy_api, tag=search, rating=config.giphy_rating)
     return api_response.data.url

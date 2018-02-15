@@ -32,11 +32,12 @@ async def on_message(message):
             return
         else:
             # Removes Prefix and White Space from Command at Start and End
-            message.content = message.content[len(config.prefix):].lower().strip()
+            message.content = message.content[len(config.prefix):].strip()
+            message_lower = message.content.lower()
             # Checks if Command Exists in Commands List
             for command in commands.cmds:
                 # Checks all Aliases Defined for Each Command
-                if message.content.startswith(command.aliases):
+                if message_lower.startswith(command.aliases):
                     # Runs only if Command is Enabled
                     if command.enabled:
                         # Removes Alias from Command Content
