@@ -1,3 +1,4 @@
+import math
 import random
 from features import functions, textformat
 from settings import *
@@ -96,22 +97,29 @@ class FuckMarryKill(Command):
 
 class Giphy(Command):
     def __init__(self):
-        Command.__init__(self, 'Giphy', 'Searches Giphy for Reaction Gifs', ('giphy', 'gif'), 'Search', False, config.giphy)
+        Command.__init__(self, 'Giphy', 'Searches Giphy for Reaction GIFs', ('giphy', 'gif'), 'Search', False, config.giphy)
 
     def run(self, message):
         if message.content:
-            return functions.search_giphy(message.content)
+            return functions.get_random_giphy(message.content)
         else:
             return 'You must Enter a Search Query'
 
 
 class LoveCalc(Command):
     def __init__(self):
-        Command.__init__(self, 'LoveCalc', 'Calculates Love between 2 Users', ('lovecalc', 'love'), ('User1', 'User2'), False, config.lovecalc)
+        Command.__init__(self, 'LoveCalc', 'Calculates Love between 2 Users', ('lovecalc', 'love'), ('Name1', 'Name2'), False, config.lovecalc)
 
     def run(self, message):
         users = message.content.split(',')
-        return textformat.bold(str(random.randint(0, 100)) + '%') + ' Love Between: ' + users[0].strip() + ' and ' + users[1].strip() + ' :sparkling_heart:'
+        if len(users) >= 2:
+            love = random.randint(0, 100)
+            emojis = {0: ':broken_heart:', 10: ':disappointed_relieved:', 20: ':worried:', 30: ':frowning:', 40: ':neutral_face:', 50: ':wink:', 60: ':smirk:', 70: ':hearts:', 80: ':revolving_hearts:', 90: ':sparkling_heart:', 100: ':gift_heart: :sparkling_heart: :heartpulse: :sparkling_heart: :gift_heart:'}
+            # Rounds Down to Nearest 10 to select Emoji from Dictionary
+            emoji = emojis.get(math.floor(love / 10) * 10)
+            return textformat.bold(str(love) + '%') + ' Love Between ' + users[0].title().strip() + ' and ' + users[1].title().strip() + ' ' + emoji
+        else:
+            return 'You must Enter Exactly 2 People'
 
 
 class Members(Command):
