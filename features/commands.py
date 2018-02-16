@@ -66,21 +66,53 @@ class Bork(Command):
 
 
 class CoinFlip(Command):
+    random_outcome = (
+        'Wow! It landed on its side', 'Oops, it rolled under the bed', 'Oops, it fell in a crack',
+        'Oops, it rolled down the drain', 'Oops, it slipped through a void to the fifth dimension',
+        'In the multiverse, the coin is both heads, tails, and non-existent simultaneously'
+    )
+
     def __init__(self):
-        Command.__init__(self, 'CoinFlip', 'Flips a Coin Revealing Heads or Tails', ('coinflip', 'flipcoin', 'headsortails'), '', False, config.coinflip)
+        Command.__init__(self, 'CoinFlip', 'Flips a Coin Revealing Heads or Tails', ('coinflip', 'flipcoin', 'coin'), '', False, config.coinflip)
 
     def run(self, message):
-        return random.choice(['Heads', 'Tails'])
+        flip = random.randint(1, 501)
+        if flip > 0 and flip <= 250:
+            result = 'Heads!'
+        elif flip > 250 and flip <= 500:
+            result = 'Tails!'
+        else:
+            result = random.choice(self.random_outcome)
+        return 'Flipping a Coin... ' + textformat.bold(result)
 
 
 class Eightball(Command):
+    answers_positive = (
+        'It is certain!', 'It is decidedly so!', 'Without a doubt!', 'Yes definitely!',
+        'You may rely on it!', 'As I see it yes!', 'Most likely!', 'Outlook good!', 'Yes!',
+        'Signs point to yes!'
+    )
+    answers_negative = (
+        "Don't count on it!", 'My reply is no!', 'My sources say no!',
+        'Outlook not so good!', 'Very doubtful!'
+    )
+    answers_nocommit = (
+        'Reply hazy try again!', 'Ask again later!', 'Better not tell you now!',
+        'Cannot predict now!', 'Concentrate and ask again!'
+    )
+
     def __init__(self):
         Command.__init__(self, '8ball', 'Answers Yes/No Questions', ('8ball', 'ask', 'yesorno'), 'Question', False, config.eightball)
 
     def run(self, message):
         if message.content:
-            answers = ['It is certain!', 'It is decidedly so!', 'Without a doubt!', 'Yes definitely!', 'You may rely on it!', 'As I see it yes!', 'Most likely!', 'Outlook good!', 'Yes!', 'Signs point to yes!', 'Reply hazy try again!', 'Ask again later!', 'Better not tell you now!', 'Cannot predict now!', 'Concentrate and ask again!', "Don't count on it!", 'My reply is no!', 'My sources say no!', 'Outlook not so good!', 'Very doubtful!']
-            return random.choice(answers)
+            value = random.randint(1, 100)
+            if value > 0 and value <= 50:
+                return random.choice(self.answers_positive)
+            elif value > 50 and value <= 90:
+                return random.choice(self.answers_negative)
+            else:
+                return random.choice(self.answers_nocommit)
         else:
             return 'You must enter a Yes/No Question'
 
