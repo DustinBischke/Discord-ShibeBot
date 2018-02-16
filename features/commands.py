@@ -107,19 +107,41 @@ class Giphy(Command):
 
 
 class LoveCalc(Command):
+    emojis = {
+        -1: ':broken_heart: :sob: :broken_heart: :sob: :broken_heart:', 0: ':broken_heart:',
+        5: ':sob:', 10: ':cry:', 15: ':disappointed_relieved:', 20: ':worried:', 25: ':anguished:',
+        30: ':frowning:', 35: 'confused', 40: ':neutral_face:', 45: ':slight_smile:',
+        50: ':grinning:', 55: ':wink:', 60: ':smirk:', 65: ':kissing_heart:', 70: ':heart_eyes:',
+        75: ':hearts:', 80: ':sparkling_heart:', 85: ':gift_heart:', 90: ':two_hearts:',
+        95: ':revolving_hearts:', 100: ':heartpulse:',
+        101: ':sparkling_heart: :revolving_hearts: :heartpulse: :revolving_hearts: :sparkling_heart:'
+    }
+
     def __init__(self):
         Command.__init__(self, 'LoveCalc', 'Calculates Love between 2 Users', ('lovecalc', 'love'), ('Name1', 'Name2'), False, config.lovecalc)
 
+    def getLoveEmoji(self, value):
+        if value > 0 and value < 100:
+            if value % 5 == 0:
+                return self.emojis.get(value)
+            else:
+                # Rounds Down to Nearest 5 to select Emoji from Dictionary
+                return self.emojis.get(math.floor(value / 5) * 5)
+        else:
+            return self.emojis.get(value)
+
     def run(self, message):
-        users = message.content.split(',')
+        # If only 2 Words, Split at Space
+        if len(message.content.split()) == 2:
+            users = message.content.split()
+        else:
+            users = message.content.split(',')
         if len(users) >= 2:
-            love = random.randint(0, 100)
-            emojis = {0: ':broken_heart:', 10: ':disappointed_relieved:', 20: ':worried:', 30: ':frowning:', 40: ':neutral_face:', 50: ':wink:', 60: ':smirk:', 70: ':hearts:', 80: ':revolving_hearts:', 90: ':sparkling_heart:', 100: ':gift_heart: :sparkling_heart: :heartpulse: :sparkling_heart: :gift_heart:'}
-            # Rounds Down to Nearest 10 to select Emoji from Dictionary
-            emoji = emojis.get(math.floor(love / 10) * 10)
+            love = random.randint(-1, 101)
+            emoji = self.getLoveEmoji(love)
             return textformat.bold(str(love) + '%') + ' Love Between ' + users[0].title().strip() + ' and ' + users[1].title().strip() + ' ' + emoji
         else:
-            return 'You must Enter Exactly 2 People'
+            return 'You must Enter Exactly 2 People. If more than 2 Words, Split with a Comma'
 
 
 class Members(Command):
