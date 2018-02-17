@@ -65,8 +65,19 @@ class Bork(Command):
         return textformat.bold('BORK ' * random.randint(1, 200))
 
 
+class Cleverbot(Command):
+    def __init__(self):
+        Command.__init__(self, 'Cleverbot', 'Chat with Cleverbot AI', ('cleverbot', 'chat'), '', False, config.cleverbot)
+
+    def run(self, message):
+        if message.content:
+            return functions.get_cleverbot_response(message.content)
+        else:
+            return 'You must enter a Message'
+
+
 class CoinFlip(Command):
-    random_outcome = (
+    random_outcomes = (
         'Wow! It landed on its side', 'Oops, it rolled under the bed', 'Oops, it fell in a crack',
         'Oops, it rolled down the drain', 'Oops, it slipped through a void to the fifth dimension',
         'In the multiverse, the coin is both heads, tails, and non-existent simultaneously'
@@ -82,7 +93,7 @@ class CoinFlip(Command):
         elif flip > 250 and flip <= 500:
             result = 'Tails!'
         else:
-            result = random.choice(self.random_outcome)
+            result = random.choice(self.random_outcomes)
         return 'Flipping a Coin... ' + textformat.bold(result)
 
 
@@ -234,7 +245,10 @@ class Youtube(Command):
 
 
 # Instances of Command Class
-cmds = [Help(), Eightball(), Bork(), CoinFlip(), FuckMarryKill(), Giphy(), LoveCalc(), Members(), Roll(), Shibe(), Stats(), Youtube()]
+cmds = [
+    Help(), Eightball(), Bork(), Cleverbot(), CoinFlip(), FuckMarryKill(), Giphy(), LoveCalc(),
+    Members(), Roll(), Shibe(), Stats(), Youtube()
+]
 
 
 def help_all():

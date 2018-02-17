@@ -6,10 +6,12 @@ import random
 import re
 import urllib.parse
 import urllib.request
+from cleverwrap import CleverWrap
 from features import commands
 from settings import *
 
 client = discord.Client()
+cleverbot = CleverWrap(config.cleverbot_api)
 
 
 # Returns the Bot Developer Name and Discriminator
@@ -75,6 +77,15 @@ def strip_alias(message, aliases):
             message = message[len(alias):].strip()
             break
     return message
+
+
+# Returns Cleverbot Response to Input Message
+def get_cleverbot_response(message):
+    if config.cleverbot_api != '':
+        response = cleverbot.say(message)
+        return response
+    else:
+        return 'Missing Cleverbot API in Config'
 
 
 # Returns Giphy URL of Random GIF Result from Search Query
