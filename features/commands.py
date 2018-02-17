@@ -214,7 +214,7 @@ class Shibe(Command):
     def __init__(self):
         Command.__init__(self, 'Shibe', 'Sends a Cute Shibe Picture', ('shibe', 'doggo', 'pic'), '', True, config.shibe)
 
-    def run(self, message):
+    def run(self):
         return functions.get_random_picture('shibes')
 
 
