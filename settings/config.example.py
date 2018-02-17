@@ -11,7 +11,7 @@ token = 'INSERT BOT TOKEN HERE'
 # External API
 cleverbot_api = '' # Cleverbot API Available at https://www.cleverbot.com/api/
 giphy_api = 'dc6zaTOxFJmzC' # Public Giphy API. Available at https://developers.giphy.com/
-giphy_rating = 'pg-13'
+giphy_rating = 'pg' # Options: y, g, pg, pg-13, r
 
 # Enabled Commands
 help = True
