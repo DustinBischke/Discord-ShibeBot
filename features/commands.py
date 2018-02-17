@@ -67,7 +67,7 @@ class Bork(Command):
 
 class Cleverbot(Command):
     def __init__(self):
-        Command.__init__(self, 'Cleverbot', 'Chat with Cleverbot AI', ('cleverbot', 'chat'), '', False, config.cleverbot)
+        Command.__init__(self, 'Cleverbot', 'Chat with Cleverbot AI', ('cleverbot', 'chat'), 'Message', False, config.cleverbot)
 
     def run(self, message):
         if message.content:
