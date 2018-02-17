@@ -14,7 +14,7 @@ async def on_ready():
     print('Client ID: ' + functions.get_bot_id())
     print('Connected Servers: ' + str(functions.get_server_count()))
     print('Invite URL: https://discordapp.com/oauth2/authorize?&client_id=' + functions.get_bot_id() + '&scope=bot&permissions=' + config.permissions)
-    await client.change_presence(game=discord.Game(name=config.game))
+    await client.change_presence(game=discord.Game(name=config.game_status))
 
 
 @client.event
