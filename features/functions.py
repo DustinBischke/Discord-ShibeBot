@@ -1,4 +1,5 @@
 import asyncio
+import cleverwrap
 import discord
 import giphy_client
 import os
@@ -6,12 +7,10 @@ import random
 import re
 import urllib.parse
 import urllib.request
-from cleverwrap import CleverWrap
-from features import commands
-from settings import *
+from settings import config
 
 client = discord.Client()
-cleverbot = CleverWrap(config.cleverbot_api)
+cleverbot = cleverwrap.CleverWrap(config.cleverbot_api)
 
 
 # Returns the Bot Developer Name and Discriminator

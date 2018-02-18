@@ -1,9 +1,7 @@
 import math
 import random
 from features import functions, textformat
-from settings import *
-
-client = functions.client
+from settings import config
 
 
 class Command:

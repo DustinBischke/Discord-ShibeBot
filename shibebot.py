@@ -1,7 +1,7 @@
 import asyncio
 import discord
-from features import *
-from settings import *
+from features import commands, functions
+from settings import config
 
 client = functions.client
 
