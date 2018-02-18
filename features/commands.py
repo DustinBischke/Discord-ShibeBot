@@ -215,7 +215,7 @@ class Shibe(Command):
         Command.__init__(self, 'Shibe', 'Sends a Cute Shibe Picture', ('shibe', 'doggo', 'pic'), '', True, config.shibe)
 
     def run(self):
-        return functions.get_random_picture('shibes')
+        return functions.get_random_image('shibes')
 
 
 class Stats(Command):
@@ -239,7 +239,7 @@ class Youtube(Command):
 
     def run(self, message):
         if message.content:
-            return functions.search_youtube(message.content)
+            return functions.get_youtube_search_result(message.content)
         else:
             return 'You must Enter a Search Query'
 

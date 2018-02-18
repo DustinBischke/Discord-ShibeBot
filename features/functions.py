@@ -31,13 +31,6 @@ def get_bot_id():
     return client.user.id
 
 
-# Returns File Name of Random Picture from Specified Directory Within /resources/
-def get_random_picture(directory):
-    directory = 'resources/' + directory + '/'
-    image = directory + random.choice(os.listdir(directory))
-    return image
-
-
 # Returns Number of Servers the Bot is Connected to
 def get_server_count():
     return len(client.servers)
@@ -70,7 +63,7 @@ def get_total_user_count():
 
 
 # Strips Command Alias and WhiteSpace from Front and Back of Message
-def strip_alias(message, aliases):
+def strip_command_alias(message, aliases):
     message_lower = message.lower()
     for alias in aliases:
         if message_lower.startswith(alias):
@@ -88,6 +81,13 @@ def get_cleverbot_response(message):
         return 'Missing Cleverbot API in Config'
 
 
+# Returns File Name of Random Picture from Specified Directory Within /resources/
+def get_random_image(directory):
+    directory = 'resources/' + directory + '/'
+    image = directory + random.choice(os.listdir(directory))
+    return image
+
+
 # Returns Giphy URL of Random GIF Result from Search Query
 def get_random_giphy(search):
     api_instance = giphy_client.DefaultApi()
@@ -96,7 +96,7 @@ def get_random_giphy(search):
 
 
 # Returns Youtube URL of Top Result from Search Query
-def search_youtube(search):
+def get_youtube_search_result(search):
     query_string = urllib.parse.urlencode({'search_query' : search})
     html_content = urllib.request.urlopen('http://www.youtube.com/results?' + query_string)
     search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())

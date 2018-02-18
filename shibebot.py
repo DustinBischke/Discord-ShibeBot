@@ -41,7 +41,7 @@ async def on_message(message):
                     # Runs only if Command is Enabled
                     if command.enabled:
                         # Removes Alias from Command Content
-                        message.content = functions.strip_alias(message.content, command.aliases)
+                        message.content = functions.strip_command_alias(message.content, command.aliases)
                         # TODO: Remove This Section, Make all Commands Run with await command.run()
                         if command.sendsFile:
                             await client.send_file(message.channel, command.run())
