@@ -31,6 +31,11 @@ def get_bot_id():
     return client.user.id
 
 
+# Returns the Bot Invite URL
+def get_bot_invite():
+    return 'https://discordapp.com/oauth2/authorize?client_id=' + get_bot_id() + '&scope=bot&permissions=' + config.permissions
+
+
 # Returns Number of Servers the Bot is Connected to
 def get_server_count():
     return len(client.servers)

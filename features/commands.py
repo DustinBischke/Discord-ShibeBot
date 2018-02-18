@@ -149,6 +149,14 @@ class Giphy(Command):
             return 'You must Enter a Search Query'
 
 
+class Invite(Command):
+    def __init__(self):
+        Command.__init__(self, 'Invite', 'Sends the Bot Invite URL', 'invite', '', False, config.invite)
+
+    def run(self, message):
+        return functions.get_bot_invite()
+
+
 class LoveCalc(Command):
     emojis = {
         -1: ':broken_heart: :sob: :broken_heart: :sob: :broken_heart:', 0: ':broken_heart:',
@@ -246,8 +254,8 @@ class Youtube(Command):
 
 # Instances of Command Class
 cmds = [
-    Help(), Eightball(), Bork(), Cleverbot(), CoinFlip(), FuckMarryKill(), Giphy(), LoveCalc(),
-    Members(), Roll(), Shibe(), Stats(), Youtube()
+    Help(), Eightball(), Bork(), Cleverbot(), CoinFlip(), FuckMarryKill(), Giphy(), Invite(),
+    LoveCalc(), Members(), Roll(), Shibe(), Stats(), Youtube()
 ]
 
 

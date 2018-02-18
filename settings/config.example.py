@@ -22,6 +22,7 @@ coinflip = True
 eightball = True
 fuckmarrykill = True
 giphy = True
+invite = True
 lovecalc = True
 members = True
 roll = True
