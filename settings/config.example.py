@@ -5,7 +5,7 @@ game_status = 'Fetch'
 maintenance = False
 maintenance_msg = 'Commands are Temporarily Disabled for Maintenance. Sorry for the Inconvenience!'
 permissions = '0'
-prefix = '!shibe'
+prefix = '!'
 token = 'INSERT BOT TOKEN HERE'
 
 # External API
@@ -13,7 +13,8 @@ cleverbot_api = '' # Cleverbot API Available at https://www.cleverbot.com/api/
 giphy_api = 'dc6zaTOxFJmzC' # Public Giphy API. Available at https://developers.giphy.com/
 giphy_rating = 'pg' # Options: y, g, pg, pg-13, r
 
-# Enabled Commands
+# Commands
+notify_invalid_command = False # Recommended False, unless using a unique Prefix
 help = True
 bork = False
 cleverbot = True

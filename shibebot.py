@@ -27,31 +27,31 @@ async def on_message(message):
             await client.send_message(message.channel, "Sorry, I can't Execute Commands in Private Messages!")
             return
         # Allows only Bot Developer to Execute Commands if in Maintenance Mode
-        elif config.maintenance and message.author.id != config.dev_id:
+        if config.maintenance and message.author.id != config.dev_id:
             await client.send_message(message.channel, config.maintenance_msg)
             return
-        else:
-            # Removes Prefix and White Space from Command at Start and End
-            message.content = message.content[len(config.prefix):].strip()
-            message_lower = message.content.lower()
-            # Checks if Command Exists in Commands List
-            for command in commands.cmds:
-                # Checks all Aliases Defined for Each Command
-                if message_lower.startswith(command.aliases):
-                    # Runs only if Command is Enabled
-                    if command.enabled:
-                        # Removes Alias from Command Content
-                        message.content = functions.strip_command_alias(message.content, command.aliases)
-                        # TODO: Remove This Section, Make all Commands Run with await command.run()
-                        if command.sendsFile:
-                            await client.send_file(message.channel, command.run())
-                        else:
-                            await client.send_message(message.channel, command.run(message))
-                    # If Command not Enabled, inform the User
+        # Removes Prefix and White Space from Command at Start and End
+        message.content = message.content[len(config.prefix):].strip()
+        message_lower = message.content.lower()
+        # Checks if Command Exists in Commands List
+        for command in commands.cmds:
+            # Checks all Aliases Defined for Each Command
+            if message_lower.startswith(command.aliases):
+                # Runs only if Command is Enabled
+                if command.enabled:
+                    # Removes Alias from Command Content
+                    message.content = functions.strip_command_alias(message.content, command.aliases)
+                    # TODO: Remove This Section, Make all Commands Run with await command.run()
+                    if command.sendsFile:
+                        await client.send_file(message.channel, command.run())
                     else:
-                        await client.send_message(message.channel, command.name + ' Command has been Disabled')
-                    return
-            # Run InvalidCommand if Command not Found
+                        await client.send_message(message.channel, command.run(message))
+                # If Command not Enabled, inform the User
+                else:
+                    await client.send_message(message.channel, command.name + ' Command has been Disabled')
+                return
+        # If Command not Found, Notify the User if Enabled in Config
+        if config.notify_invalid_command:
             await client.send_message(message.channel, commands.invalid_command())
 
 
