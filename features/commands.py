@@ -131,9 +131,16 @@ class FuckMarryKill(Command):
         Command.__init__(self, 'FuckMarryKill', 'Tells who to Fuck, Marry, and Kill', ('fuckmarrykill', 'fmk'), ('P1', 'P2', 'P3'), False, config.fuckmarrykill)
 
     def run(self, message):
-        words = message.content.split(',')
-        random.shuffle(words)
-        return textformat.bold('Fuck: ') + words[0].strip() + textformat.bold(' Marry: ') + words[1].strip() + textformat.bold(' Kill: ') + words[2].strip()
+        if len(message.content.split()) == 3:
+            words = message.content.split()
+        else:
+            words = message.content.split(',')
+        if len(users) >= 3:
+            words = message.content.split(',')
+            random.shuffle(words)
+            return textformat.bold('Fuck: ') + words[0].strip() + textformat.bold(' Marry: ') + words[1].strip() + textformat.bold(' Kill: ') + words[2].strip()
+        else:
+            return 'You must Enter Exactly 3 People. If more than 3 Words, Split with a Comma'
 
 
 class Giphy(Command):
@@ -159,7 +166,7 @@ class LoveCalc(Command):
     emojis = {
         -1: ':broken_heart: :sob: :broken_heart: :sob: :broken_heart:', 0: ':broken_heart:',
         5: ':sob:', 10: ':cry:', 15: ':disappointed_relieved:', 20: ':worried:', 25: ':anguished:',
-        30: ':frowning:', 35: 'confused', 40: ':neutral_face:', 45: ':slight_smile:',
+        30: ':frowning:', 35: ':confused:', 40: ':neutral_face:', 45: ':slight_smile:',
         50: ':grinning:', 55: ':wink:', 60: ':smirk:', 65: ':kissing_heart:', 70: ':heart_eyes:',
         75: ':hearts:', 80: ':sparkling_heart:', 85: ':gift_heart:', 90: ':two_hearts:',
         95: ':revolving_hearts:', 100: ':heartpulse:',
