@@ -27,5 +27,6 @@ lovecalc = True
 members = True
 roll = True
 shibe = True
+smashorpass = True
 stats = True
 youtube = True

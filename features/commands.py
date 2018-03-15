@@ -231,6 +231,21 @@ class Shibe(Command):
         return functions.get_random_image('shibes')
 
 
+class SmashOrPass(Command):
+    def __init__(self):
+        Command.__init__(self, 'SmashOrPass', 'Answers Smash or Pass', ('sop', 'smash'), 'Name', False, config.smashorpass)
+
+    def run(self, message):
+        if message.content:
+            value = random.randint(1, 2)
+            if value == 1:
+                return 'Smash!'
+            else:
+                return 'Pass'
+        else:
+            return 'You must enter a Name'
+
+
 class Stats(Command):
     def __init__(self):
         Command.__init__(self, 'Stats', 'Shows Connected Server Information', ('stats', 'servers'), '', False, config.stats)
@@ -260,14 +275,14 @@ class Youtube(Command):
 # Instances of Command Class
 command_list = [
     Help(), Eightball(), Bork(), Cleverbot(), CoinFlip(), FuckMarryKill(), Giphy(), Invite(),
-    LoveCalc(), Members(), Roll(), Shibe(), Stats(), Youtube()
+    LoveCalc(), Members(), Roll(), Shibe(), SmashOrPass(), Stats(), Youtube()
 ]
 
 
 def help_all():
     help_message = textformat.bold(functions.get_bot_name() + ' Developed by ' + config.dev_name) + '\n' + 'Prefix: ' + textformat.bold(config.prefix) + '\n'
     help_message += textformat.seperator()
-    for command in cmds:
+    for command in command_list:
         if (command.enabled):
             help_message += command.help_short() + '\n'
     return help_message
