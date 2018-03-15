@@ -43,13 +43,13 @@ def get_server_count():
 # Returns the Connected Server List as a String
 def get_server_list():
     if get_server_count() > 0:
-        serverStr = ''
-        connectedServers = sorted(list(client.servers), key=lambda server: server.member_count, reverse=True)
-        for server in connectedServers:
-            serverStr += server.name + ' (' + str(server.member_count) + ')'
-            if server != connectedServers[-1]:
-                serverStr += ', '
-        return serverStr
+        servers = ''
+        server_list = sorted(list(client.servers), key=lambda server: server.member_count, reverse=True)
+        for server in server_list:
+            servers += server.name + ' (' + str(server.member_count) + ')'
+            if server != server_list[-1]:
+                servers += ', '
+        return servers
     return 'None'
 
 

@@ -28,13 +28,13 @@ async def on_message(message):
             return
         # Allows only Bot Developer to Execute Commands if in Maintenance Mode
         if config.maintenance and message.author.id != config.dev_id:
-            await client.send_message(message.channel, config.maintenance_msg)
+            await client.send_message(message.channel, config.maintenance_message)
             return
         # Removes Prefix and White Space from Command at Start and End
         message.content = message.content[len(config.prefix):].strip()
         message_lower = message.content.lower()
         # Checks if Command Exists in Commands List
-        for command in commands.cmds:
+        for command in commands.command_list:
             # Checks all Aliases Defined for Each Command
             if message_lower.startswith(command.aliases):
                 # Runs only if Command is Enabled
@@ -42,7 +42,7 @@ async def on_message(message):
                     # Removes Alias from Command Content
                     message.content = functions.strip_command_alias(message.content, command.aliases)
                     # TODO: Remove This Section, Make all Commands Run with await command.run()
-                    if command.sendsFile:
+                    if command.sends_file:
                         await client.send_file(message.channel, command.run())
                     else:
                         await client.send_message(message.channel, command.run(message))

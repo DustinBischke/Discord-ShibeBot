@@ -5,12 +5,12 @@ from settings import config
 
 
 class Command:
-    def __init__(self, name, desc, aliases, args, sendsFile, enabled):
+    def __init__(self, name, desc, aliases, args, sends_file, enabled):
         self.name = name
         self.desc = desc
         self.aliases = aliases
         self.args = args
-        self.sendsFile = sendsFile
+        self.sends_file = sends_file
         self.enabled = enabled
 
     def help_short(self):
@@ -176,7 +176,7 @@ class LoveCalc(Command):
     def __init__(self):
         Command.__init__(self, 'LoveCalc', 'Calculates Love between 2 Users', ('lovecalc', 'love'), ('Name1', 'Name2'), False, config.lovecalc)
 
-    def getLoveEmoji(self, value):
+    def get_love_emoji(self, value):
         if value > 0 and value < 100:
             if value % 5 == 0:
                 return self.emojis.get(value)
@@ -194,7 +194,7 @@ class LoveCalc(Command):
             users = message.content.split(',')
         if len(users) >= 2:
             love = random.randint(-1, 101)
-            emoji = self.getLoveEmoji(love)
+            emoji = self.get_love_emoji(love)
             return textformat.bold(str(love) + '%') + ' Love Between ' + users[0].title().strip() + ' and ' + users[1].title().strip() + ' ' + emoji
         else:
             return 'You must Enter Exactly 2 People. If more than 2 Words, Split with a Comma'
@@ -236,10 +236,10 @@ class Stats(Command):
         Command.__init__(self, 'Stats', 'Shows Connected Server Information', ('stats', 'servers'), '', False, config.stats)
 
     def run(self, message):
-        serverStr = ' Server'
+        servers = ' Server'
         if functions.get_server_count() != 1:
-            serverStr += 's'
-        stats_message = textformat.bold(functions.get_bot_name()) + ' is connected to ' + textformat.bold(str(functions.get_server_count()) + serverStr) + '\n'
+            servers += 's'
+        stats_message = textformat.bold(functions.get_bot_name()) + ' is connected to ' + textformat.bold(str(functions.get_server_count()) + servers) + '\n'
         stats_message += 'Serving a Total of ' + textformat.bold(str(functions.get_total_user_count()) + ' Users') + '\n'
         stats_message += textformat.seperator()
         stats_message += functions.get_server_list()
@@ -258,19 +258,19 @@ class Youtube(Command):
 
 
 # Instances of Command Class
-cmds = [
+command_list = [
     Help(), Eightball(), Bork(), Cleverbot(), CoinFlip(), FuckMarryKill(), Giphy(), Invite(),
     LoveCalc(), Members(), Roll(), Shibe(), Stats(), Youtube()
 ]
 
 
 def help_all():
-    msg = textformat.bold(functions.get_bot_name() + ' Developed by ' + config.dev_name) + '\n' + 'Prefix: ' + textformat.bold(config.prefix) + '\n'
-    msg += textformat.seperator()
+    help_message = textformat.bold(functions.get_bot_name() + ' Developed by ' + config.dev_name) + '\n' + 'Prefix: ' + textformat.bold(config.prefix) + '\n'
+    help_message += textformat.seperator()
     for command in cmds:
         if (command.enabled):
-            msg += command.help_short() + '\n'
-    return msg
+            help_message += command.help_short() + '\n'
+    return help_message
 
 
 # Returns Message if Invalid Command Entered
