@@ -209,6 +209,14 @@ class Members(Command):
         return msg
 
 
+class Ping(Command):
+    def __init__(self):
+        Command.__init__(self, 'Ping', 'Used to Check Latency to Server', ('ping'), '', False, config.ping)
+
+    def run(self, message):
+        return 'Pong! :ping_pong:'
+
+
 class Roll(Command):
     def __init__(self):
         Command.__init__(self, 'Roll', 'Rolls a Random Number', ('roll', 'randomnumber'), 'Max', False, config.roll)
@@ -275,7 +283,7 @@ class Youtube(Command):
 # Instances of Command Class
 command_list = [
     Help(), Eightball(), Bork(), Cleverbot(), CoinFlip(), FuckMarryKill(), Giphy(), Invite(),
-    LoveCalc(), Members(), Roll(), Shibe(), SmashOrPass(), Stats(), Youtube()
+    LoveCalc(), Members(), Ping(), Roll(), Shibe(), SmashOrPass(), Stats(), Youtube()
 ]
 
 

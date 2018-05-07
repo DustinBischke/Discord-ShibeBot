@@ -25,6 +25,7 @@ giphy = True
 invite = True
 lovecalc = True
 members = True
+ping = True
 roll = True
 shibe = True
 smashorpass = True
